@@ -4,6 +4,7 @@ import os
 import re
 import sys
 from os.path import splitext
+from pathlib import Path
 from textwrap import dedent
 
 import pandoc
@@ -56,7 +57,11 @@ def main() -> None:
 
     snippet = dedent("\n".join(lines)).strip()
     doc = pandoc.read(source=snippet, format=format_)
-    set_github_action_output("changelog", pandoc.write(doc, format="markdown"))
+    output_path = Path(os.environ["RUNNER_TEMP"]).joinpath("changelog.md")
+    with output_path.open("w") as f:
+        pandoc.write(doc, file=f, format="markdown")
+
+    set_github_action_output("path", str(output_path))
 
 
 if __name__ == "__main__":

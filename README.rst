@@ -5,7 +5,7 @@
 .. highlight:: yaml
 
 This is a GitHub action that extracts release notes from a changelog file, converts them
-to the Markdown format and outputs the result.
+to the Markdown format and outputs the path to the resulting document.
 
 Here's what it does:
 
@@ -13,7 +13,8 @@ Here's what it does:
    pattern regex, and the matched version is the one it's looking for
 #. Reads lines to memory until it encounters another version or the end of the file
 #. Joins the lines together as a snippet and converts it to the Markdown format
-#. Exports the Markdown document as the ``changelog`` output
+#. Exports the Markdown document to a temporary file
+#. Sets the ``path`` output to the path of the temporary file
 
 Configuration options:
 
@@ -50,5 +51,4 @@ Sample configuration (``.github/workflows/release.yml``)::
             path: CHANGES.rst
         - uses: ncipollo/release-action@v1
           with:
-            body: |
-              ${{ steps.changelog.outputs.changelog }}
+            bodyFile: ${{ steps.changelog.outputs.path }}
