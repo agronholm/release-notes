@@ -40,6 +40,7 @@ def test_extract(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setenv("GITHUB_REF_TYPE", "tag")
     monkeypatch.setenv("GITHUB_OUTPUT", str(output_path))
     monkeypatch.setenv("INPUT_PATH", str(input_path))
+    monkeypatch.setenv("INPUT_VERSION_PATTERN", r"^\*\*([0-9][^*]*)\*\*")
     main()
 
     output = output_path.read_text()
