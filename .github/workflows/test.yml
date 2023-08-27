@@ -19,4 +19,4 @@ jobs:
     - name: Install dependencies
       run: pip install -e .[test]
     - name: Test with pytest
-      run: run -m pytest
+      run: pytest
