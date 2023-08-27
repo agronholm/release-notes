@@ -11,8 +11,8 @@ inputs:
   version:
     description: Version number to look for in the changelog file
 outputs:
-  changelog:
-    description: Release notes for the given version in the markdown format
+  path:
+    description: Path to the changelog for the given version in the Markdown format
 runs:
   using: "docker"
   image: "Dockerfile"
