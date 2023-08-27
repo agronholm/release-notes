@@ -10,7 +10,8 @@ from relnotes import main
 
 def test_extract(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
     input_path = tmp_path / "changelog.rst"
-    output_path = tmp_path / "output.md"
+    output_path = tmp_path / "output.txt"
+    changelog_path = tmp_path / "changelog.md"
     input_path.write_text(
         dedent(
             """
@@ -36,6 +37,7 @@ def test_extract(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
         )
     )
 
+    monkeypatch.setenv("GITHUB_WORKSPACE", str(tmp_path))
     monkeypatch.setenv("GITHUB_REF_NAME", "1.2.3rc4")
     monkeypatch.setenv("GITHUB_REF_TYPE", "tag")
     monkeypatch.setenv("GITHUB_OUTPUT", str(output_path))
@@ -45,8 +47,11 @@ def test_extract(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
 
     output = output_path.read_text()
     key, _, value = output.partition("=")
-    assert key == "changelog"
-    assert value == dedent(
+    assert key == "path"
+    assert value == str(changelog_path)
+
+    changelog = changelog_path.read_text()
+    assert changelog == dedent(
         """\
     -   Simple item
         -   Sub-item `literal`
