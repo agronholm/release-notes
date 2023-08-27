@@ -1,13 +1,10 @@
-FROM python:3 as build
+FROM python:3-slim
 ENV SETUPTOOLS_SCM_PRETEND_VERSION_FOR_RELNOTES 1.0.0
+RUN apt-get update && apt-get install -y pandoc && rm -rf /var/lib/apt/lists/*
 
 ADD . /app
 WORKDIR /app
 
-RUN pip wheel .
-
-FROM python:3-slim
-RUN apt-get update && apt-get install -y pandoc && rm -rf /var/lib/apt/lists/*
-RUN --mount=type=bind,from=build,source=/app,target=/wheels pip install --no-index -f /wheels relnotes
+RUN pip install -e .
 
 CMD ["python", "-m", "relnotes"]
