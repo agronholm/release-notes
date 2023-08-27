@@ -57,7 +57,7 @@ def main() -> None:
 
     snippet = dedent("\n".join(lines)).strip()
     doc = pandoc.read(source=snippet, format=format_)
-    output_path = Path(os.environ["RUNNER_TEMP"]).joinpath("changelog.md")
+    output_path = Path(os.environ["GITHUB_WORKSPACE"]).joinpath("changelog.md")
     with output_path.open("w") as f:
         pandoc.write(doc, file=f, format="markdown")
 
