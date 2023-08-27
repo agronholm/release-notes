@@ -58,7 +58,7 @@ def main() -> None:
     snippet = dedent("\n".join(lines)).strip()
     doc = pandoc.read(source=snippet, format=format_)
     output_path = Path(os.environ["GITHUB_WORKSPACE"]).joinpath("changelog.md")
-    with output_path.open("w") as f:
+    with output_path.open("wb") as f:
         pandoc.write(doc, file=f, format="markdown")
 
     set_github_action_output("path", str(output_path))
