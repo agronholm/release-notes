@@ -1,0 +1,15 @@
+.project
+.pydevproject
+.idea
+.tox
+.coverage*
+.cache
+.eggs/
+*.egg-info/
+*.pyc
+__pycache__/
+dist/
+build/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/

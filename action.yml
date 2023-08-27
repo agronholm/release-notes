@@ -1,0 +1,18 @@
+name: "Python Container Action Template"
+description: "Get started with Python Container actions"
+author: "Alex Grönholm"
+inputs:
+  path:
+    description: Path to the changelog file
+    required: true
+  version_pattern:
+    description: Regular expression to use to detect where a version entry begins and ends
+    default: "^\\*\\*([0-9][^*]*)\\*\\*"
+  version:
+    description: Version number to look for in the changelog file
+outputs:
+  changelog:
+    description: Release notes for the given version in the markdown format
+runs:
+  using: "docker"
+  image: "Dockerfile"

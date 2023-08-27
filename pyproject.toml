@@ -1,0 +1,91 @@
+[build-system]
+requires = [
+    "setuptools >= 64",
+    "setuptools_scm >= 6.4"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "relnotes"
+description = "GitHub Action for extracting release notes"
+readme = "README.rst"
+authors = [{name = "Alex Grönholm", email = "alex.gronholm@nextday.fi"}]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Typing :: Typed",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">= 3.11"
+dependencies = [
+    "pandoc >= 2.3",
+]
+dynamic = ["version"]
+
+[project.urls]
+Changelog = "https://github.com/agronholm/relnotes/README.rst"
+"Source code" = "https://github.com/agronholm/relnotes"
+"Issue tracker" = "https://github.com/agronholm/relnotes/issues"
+
+[project.optional-dependencies]
+test = [
+    "coverage[toml] >= 7",
+    "pytest >= 7.0",
+]
+
+[tool.setuptools]
+py-modules = ["relnotes"]
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "dirty-tag"
+
+[tool.ruff]
+select = [
+    "E", "F", "W",  # default flake-8
+    "I",            # isort
+    "PGH",          # pygrep-hooks
+    "UP",           # pyupgrade
+]
+
+[tool.ruff.isort]
+"required-imports" = ["from __future__ import annotations"]
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+disallow_any_generics = false
+warn_return_any = false
+disallow_untyped_decorators = false
+disallow_subclassing_any = false
+show_error_codes = true
+
+[tool.pytest.ini_options]
+addopts = "-rsx --tb=short"
+testpaths = ["tests"]
+xfail_strict = true
+
+[tool.coverage.run]
+source = ["relnotes"]
+relative_files = true
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = pre-commit, py311, py312
+skip_missing_interpreters = true
+minversion = 4.0.0
+
+[testenv]
+package = editable
+commands = coverage run -m pytest {posargs}
+extras = test
+"""
