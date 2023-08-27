@@ -15,7 +15,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Typing :: Typed",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
@@ -28,9 +27,9 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-Changelog = "https://github.com/agronholm/relnotes/README.rst"
-"Source code" = "https://github.com/agronholm/relnotes"
-"Issue tracker" = "https://github.com/agronholm/relnotes/issues"
+Changelog = "https://github.com/agronholm/release-notes/README.rst"
+"Source code" = "https://github.com/agronholm/release-notes"
+"Issue tracker" = "https://github.com/agronholm/release-notes/issues"
 
 [project.optional-dependencies]
 test = [
@@ -80,12 +79,12 @@ show_missing = true
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = pre-commit, py311, py312
+envlist = py311
 skip_missing_interpreters = true
 minversion = 4.0.0
 
 [testenv]
 package = editable
-commands = coverage run -m pytest {posargs}
+commands = pytest {posargs}
 extras = test
 """
