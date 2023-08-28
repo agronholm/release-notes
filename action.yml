@@ -8,11 +8,17 @@ inputs:
   version_pattern:
     description: Regular expression to use to detect where a version entry begins and ends
     default: "^\\*\\*([0-9][^*]*)\\*\\*"
-  version:
-    description: Version number to look for in the changelog file
+  header:
+    description: >
+      Text to prepend to the beginning of the generated changelog (in the same format as
+      the changelog itself)
+  footer:
+    description: >
+      Text to append to the end of the generated changelog (in the same format as the
+      changelog itself)
 outputs:
-  path:
-    description: Path to the changelog for the given version in the Markdown format
+  changelog:
+    description: The generated changelog text in the Markdown format
 runs:
   using: "docker"
   image: "Dockerfile"

@@ -12,23 +12,28 @@ import pandoc
 
 def set_github_action_output(output_name: str, output_value: str) -> None:
     with open(os.path.abspath(os.environ["GITHUB_OUTPUT"]), "a") as f:
-        f.write(f"{output_name}={output_value}")
+        if "\n" in output_value:
+            f.write(f"{output_name}<<END_GENERATED_VALUE\n")
+            f.write(output_value)
+            f.write("\nEND_GENERATED_VALUE\n")
+        else:
+            f.write(f"{output_name}={output_value}\n")
 
 
 def main() -> None:
+    if os.environ["GITHUB_REF_TYPE"] != "tag":
+        print(
+            "Error: the workflow was not triggered by a tag being pushed",
+            file=sys.stderr,
+        )
+        raise SystemExit(1)
+
     path = os.environ["INPUT_PATH"]
     version_re = re.compile(os.environ["INPUT_VERSION_PATTERN"])
     format_ = os.getenv("INPUT_FORMAT")
-    if not (target_version := os.getenv("INPUT_VERSION")):
-        if os.environ["GITHUB_REF_TYPE"] == "tag":
-            target_version = os.environ["GITHUB_REF_NAME"]
-        else:
-            print(
-                "Error: no version was specified, and the workflow was not triggered "
-                "by a pushed tag",
-                file=sys.stderr,
-            )
-            raise SystemExit(1)
+    header = os.getenv("INPUT_HEADER")
+    footer = os.getenv("INPUT_FOOTER")
+    target_version = os.environ["GITHUB_REF_NAME"]
 
     if not format_:
         ext = splitext(path)[1].lower().lstrip(".")
@@ -38,6 +43,9 @@ def main() -> None:
             format_ = ext
 
     lines: list[str] = []
+    if header:
+        lines.extend(header.splitlines())
+
     with open(path) as f:
         found = False
         for line in f:
@@ -54,6 +62,9 @@ def main() -> None:
         if not found:
             print(f"Cannot find version {target_version} in {path}", file=sys.stderr)
             raise SystemExit(1)
+
+    if footer:
+        lines.extend(footer.splitlines())
 
     snippet = dedent("\n".join(lines)).strip()
     doc = pandoc.read(source=snippet, format=format_)

@@ -23,6 +23,10 @@ Configuration options:
   version numbers. The first group within the expression is used to capture the version
   itself. The default value is ``^\*\*([0-9][^*]*)\*\*`` which would match a line like
   ``**1.2.3**`` or ``**4.0.1a7**`` at the beginning of the line.
+* ``header``: Text to prepend to the beginning of the generated changelog (in the same
+  format as the changelog itself)
+* ``footer``: Text to append to the end of the generated changelog (in the same format
+  as the changelog itself)
 
 The following example is triggered by pushing a version tag (``X.Y.Z``).
 It assumes a changelog file names ``CHANGES.rst`` in the project root.
