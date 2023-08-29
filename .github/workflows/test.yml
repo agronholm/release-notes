@@ -17,6 +17,8 @@ jobs:
         cache: pip
         cache-dependency-path: pyproject.toml
     - name: Install dependencies
-      run: pip install -e .[test]
+      run: |
+        sudo apt-get install -y pandoc
+        pip install -e .[test]
     - name: Test with pytest
       run: pytest
