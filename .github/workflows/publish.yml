@@ -1,0 +1,28 @@
+name: Create a release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+.post[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+[a-b][0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+rc[0-9]+"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+    - id: changelog
+      uses: agronholm/release-notes@v1
+      with:
+        path: CHANGES.rst
+        header: |
+          What's New
+          ==========
+    - uses: ncipollo/release-action@v1
+      with:
+        body: |
+          ${{ steps.changelog.outputs.changelog }}
