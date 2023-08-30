@@ -33,7 +33,7 @@ Changelog = "https://github.com/agronholm/release-notes/README.rst"
 
 [project.optional-dependencies]
 test = [
-    "coverage[toml] >= 7",
+    "docker >= 6.1",
     "pytest >= 7.0",
 ]
 
@@ -68,13 +68,6 @@ show_error_codes = true
 addopts = "-rsx --tb=short"
 testpaths = ["tests"]
 xfail_strict = true
-
-[tool.coverage.run]
-source = ["relnotes"]
-relative_files = true
-
-[tool.coverage.report]
-show_missing = true
 
 [tool.tox]
 legacy_tox_ini = """
