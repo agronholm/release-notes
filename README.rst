@@ -55,5 +55,4 @@ Sample configuration (``.github/workflows/release.yml``)::
             path: CHANGES.rst
         - uses: ncipollo/release-action@v1
           with:
-            body: |
-              ${{ steps.changelog.outputs.changelog }}
+            body: ${{ steps.changelog.outputs.changelog }}
