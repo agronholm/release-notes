@@ -19,9 +19,6 @@ jobs:
       uses: agronholm/release-notes@v1
       with:
         path: CHANGES.rst
-        header: |
-          What's New
-          ==========
     - uses: ncipollo/release-action@v1
       with:
         body: |
