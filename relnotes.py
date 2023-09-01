@@ -37,7 +37,7 @@ def main() -> None:
     if not format_:
         ext = splitext(path)[1].lower().lstrip(".")
         if splitext(path)[1].lower() == "md":
-            format_ = "markdown"
+            format_ = "gfm"
         else:
             format_ = ext
 
@@ -67,7 +67,8 @@ def main() -> None:
 
     snippet = dedent("\n".join(lines)).strip()
     doc = pandoc.read(source=snippet, format=format_)
-    set_github_action_output("changelog", pandoc.write(doc, format="markdown"))
+    converted = pandoc.write(doc, format="gfm", options=["--wrap=none"])
+    set_github_action_output("changelog", converted)
 
 
 if __name__ == "__main__":

@@ -38,10 +38,11 @@ def test_extract(
 
     **1.2.3rc4**
 
-    - Simple item
+    - Simple item "quotes"
 
       - Sub-item ``literal``
-    - Second item
+    - Second item, first line that is well over 72 columns long which is the default
+      second line
 
     **1.0.0**
 
@@ -69,9 +70,10 @@ def test_extract(
         changelog<<END_GENERATED_VALUE
         # Header
 
-        -   Simple item
+        -   Simple item "quotes"
             -   Sub-item `literal`
-        -   Second item
+        -   Second item, first line that is well over 72 columns long which is the \
+default second line
 
         # Footer
 
