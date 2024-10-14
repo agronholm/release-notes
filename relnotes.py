@@ -35,8 +35,7 @@ def main() -> None:
     target_version = os.environ["GITHUB_REF_NAME"]
 
     if not format_:
-        ext = splitext(path)[1].lower().lstrip(".")
-        if splitext(path)[1].lower() == "md":
+        if (ext := splitext(path)[1].lower().lstrip(".")) == "md":
             format_ = "gfm"
         else:
             format_ = ext
