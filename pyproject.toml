@@ -70,14 +70,9 @@ testpaths = ["tests"]
 xfail_strict = true
 
 [tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = py311
-skip_missing_interpreters = true
-minversion = 4.0.0
+env_list = ["py311"]
 
-[testenv]
-package = editable
-commands = pytest {posargs}
-extras = test
-"""
+[tool.tox.env_run_base]
+commands = [["pytest", { replace = "posargs", extend = true }]]
+package = "editable"
+extras = ["test"]
